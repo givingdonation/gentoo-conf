@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-gruvbox)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -77,3 +77,56 @@
 (setq org-ellipsis "↴↴↴")
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
+;(add-to-list 'load-path "/home/carlo/documents/org-roam")
+;(require 'org-roam)
+
+(setq org-roam-directory (file-truename "~/MyNotes1/"))
+(setq find-file-visit-truename t)
+(org-roam-db-autosync-mode)
+
+(custom-set-variables
+ '(org-directory "~/MyNotes1/")
+ '(org-agenda-files (list org-directory)))
+
+   (with-eval-after-load "ispell"
+      (setq ispell-program-name "hunspell")
+      (setq ispell-dictionary "en_US")
+      ;; ispell-set-spellchecker-params has to be called
+      ;; before ispell-hunspell-add-multi-dic will work
+      (ispell-set-spellchecker-params)
+      (ispell-hunspell-add-multi-dic "en_US"))
+
+(add-to-list 'load-path "/home/carlo/documents/go-mode.el")
+(autoload 'go-mode "go-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+(add-hook 'go-mode-hook 'lsp-deferred)
+
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((latex)))
+
+;(advice-add 'org-babel-latex-tex-to-pdf :before
+;            (lambda (file)
+;              (with-temp-buffer
+;                (insert-file-contents file)
+;                (beginning-of-buffer)
+;                (insert "% /usr/local/texlive/2023/bin/x86_64-linux/pdflatex\n")
+;                (write-file file))))
+
+(after! org (setq org-startup-with-latex-preview t))
+
+(setq doom-font (font-spec :family "JetBrainsMono" :size 24))
+
+
+(require 'latex-preview-pane)
+(latex-preview-pane-enable)
+;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/texlive/2023/bin/x86_64-linux"))
+(setq image-use-external-converter t)
+;(load-theme 'gruvbox-dark-hard)
+(require 'mu4e)
+(require 'smtpmail)
+(setq user-mail-address "me@iscienceworld.com"
+      message-send-mail-function 'smtpmail-send-it)
+(provide 'config)
+;;; config.el ends here

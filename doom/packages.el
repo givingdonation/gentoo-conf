@@ -53,4 +53,5 @@
 (package! haskell-mode)
 (package! lsp-haskell)
 (package! org-bullets)
+(package! elcord)
 ;(package! solaire-mode :disable t)
